@@ -14,7 +14,6 @@
 #import <ifaddrs.h> // 获取ip
 #import <arpa/inet.h> // 获取ip
 #import <net/if.h> // 获取ip
-#import "LFReachability.h" // 网络状态获取
 
 @implementation LFPhoneInfo
 
@@ -212,21 +211,21 @@
 + (NSString *)deviceNetType{
     NSString *networktype = @"";
     LFReachability *reach = [LFReachability reachabilityForInternetConnection];
-    NetworkStatus status = [reach currentReachabilityStatus];
+    LFNetworkStatus status = [reach currentReachabilityStatus];
     switch (status) {
-        case NotReachable:
+        case LFNotReachable:
             networktype = @"无服务";
             break;
-        case ReachableViaWiFi:
+        case LFReachableViaWiFi:
             networktype = @"Wi-Fi";
             break;
-        case ReachableViaWWAN:
+        case LFReachableViaWWAN:
             networktype = @"WWAN";
             break;
         default:
             break;
     }
-    if (status != ReachableViaWWAN) {
+    if (status != LFReachableViaWWAN) {
         return networktype;
     }
     // 如果是移动网络，判断具体
@@ -368,7 +367,9 @@
 + (BOOL)deviceIsUseProxy{
     CFDictionaryRef proxySettings = CFNetworkCopySystemProxySettings();
     NSDictionary *dictProxy = (__bridge  id)proxySettings;
-    return [[dictProxy objectForKey:@"HTTPEnable"] boolValue];
+    BOOL isUseProxy = [[dictProxy objectForKey:@"HTTPEnable"] boolValue];
+    CFRelease(proxySettings);
+    return isUseProxy;
 }
 
 @end
