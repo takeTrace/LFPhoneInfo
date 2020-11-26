@@ -70,6 +70,14 @@ NS_ASSUME_NONNULL_BEGIN
 // 当前设备是否使用网络代理, YES 是使用，NO 为未使用
 @property(class, readonly) BOOL deviceIsUseProxy;
 
+@property(class, readonly) NSString *dnsInfo;
+
+@property(class, readonly) NSUInteger deviceTotalMemoryByte;
+@property(class, readonly) NSUInteger appTakeUpMemoryByte;
+@property(class, readonly) NSUInteger deviceTotalDiskByte;
+@property(class, readonly) NSUInteger deviceFreeDiskByte;
+@property(class, readonly) NSArray<NSString *> *deviceCarrierContryCodes;
+
 @end
 
 NS_ASSUME_NONNULL_END

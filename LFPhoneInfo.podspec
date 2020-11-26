@@ -16,5 +16,6 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.source_files = 'LFPhoneInfo/Classes/**/*'
   s.frameworks = 'UIKit', 'Foundation', 'SystemConfiguration'
+  s.libraries = 'resolv.9'
   s.requires_arc = true
 end

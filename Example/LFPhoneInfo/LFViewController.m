@@ -9,7 +9,7 @@
 #import "LFViewController.h"
 #import "LFPhoneInfo.h"
 
-#define kLabelCount 25
+#define kLabelCount 31
 
 @interface LFViewController ()
 
@@ -88,6 +88,28 @@
     self.labelArray[22].text = [NSString stringWithFormat:@"是否越狱：%@",LFPhoneInfo.deviceIsJailbreak?@"是":@"否"];
     // 当前设备是否使用网络代理, YES 是使用，NO 为未使用
     self.labelArray[23].text = [NSString stringWithFormat:@"是否使用代理：%@",LFPhoneInfo.deviceIsUseProxy?@"是":@"否"];
+    
+    [self extraInfoForTakeTrace];
+}
+
+//  下面为 takeTrace 新加的使用
+- (void)extraInfoForTakeTrace {
+    // 当前设备总内存, 返回值为 byte, e.g. iPhone 总内存为 2048
+    self.labelArray[25].text = [NSString stringWithFormat:@"设备总内存 byte：%ld Byte",LFPhoneInfo.deviceTotalMemoryByte];
+    // 当前 App 占用的设备内存，返回值为 byte, e.g. 占用 43
+    self.labelArray[26].text = [NSString stringWithFormat:@"App占用内存 byte：%ld Byte",LFPhoneInfo.appTakeUpMemoryByte];
+    // 当前磁盘总空间，返回值为 byte，0为异常 e.g. 总共 16 GB 即 16384
+    self.labelArray[27].text = [NSString stringWithFormat:@"设备总存储 byte：%ld Byte",LFPhoneInfo.deviceTotalDiskByte];
+    // 当前磁盘未使用，返回值为 byte，0为异常 e.g. 空闲 2200
+    self.labelArray[28].text = [NSString stringWithFormat:@"设备剩余存储 byte：%ld Byte",LFPhoneInfo.deviceFreeDiskByte];
+    // 当前磁盘已经使用，返回值为 byte，0为异常 e.g. 已使用 2200
+    self.labelArray[29].text = [NSString stringWithFormat:@"本机DNS 地址 %@", LFPhoneInfo.dnsInfo];
+    // 通过系统框架获取设备运营商 e.g. @"中国移动" @"中国联通" @"中国电信"
+    NSString *carrieCode = LFPhoneInfo.deviceCarrierContryCodes.firstObject;
+    if (LFPhoneInfo.deviceSIMCount > 1) {
+        carrieCode = [NSString stringWithFormat:@"%@,%@",LFPhoneInfo.deviceCarrierContryCodes.firstObject, LFPhoneInfo.deviceCarrierContryCodes.lastObject];
+    }
+    self.labelArray[30].text = [NSString stringWithFormat:@"网络运营商：%@",carrieCode];
 }
 
 //创建label

@@ -24,5 +24,6 @@
     "Foundation",
     "SystemConfiguration"
   ],
+  "libraries": "resolv.9",
   "requires_arc": true
 }
